@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Usage &mdash; Apache Atlas client in Python 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Apache Atlas client in Python 0.1.0 documentation" href="index.html"/>
+        <link rel="prev" title="Apache Atlas Client in Python" href="readme.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Apache Atlas client in Python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Apache Atlas Client in Python</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#discoveryrest">DiscoveryREST</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#search-by-attribute">Search by attribute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#search-with-basic-terms">Search with basic terms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#search-by-dsl">Search by DSL</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#entityrest">EntityREST</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-entity">Create Entity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-entity-by-guid">Get entity by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-entity-by-guid">Update entity by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-entity-by-guid">Delete entity by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-classifications-by-guid">Get classifications by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-classifications-by-guid">Update classifications by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-classifications-by-guid">Create classifications by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-classification-info-by-guid-and-by-classification-type-name">Get classification info by GUID and by classification type name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-a-classification-by-guid">Delete a classification by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-entities-by-bulk">Get entities by bulk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-entities-by-bulk">Create entities by bulk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-multiple-entities">Delete multiple entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#associate-a-tag-to-multiple-entities">Associate a tag to multiple entities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-entity-by-unique-attribute">Get entity by unique attribute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-entity-for-subset-of-attributes">Update entity for subset of attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#to-delete-an-entity-by-unique-attribute">To delete an entity by unique attribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#lineagerest">LineageREST</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-lineage-by-guid">Get lineage by GUID</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#relationshiprest">RelationshipREST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#typesrest">TypesREST</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-typedefs">Get typeDefs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-typedefs">Delete typeDefs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-typedefs">Create typeDefs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-typedefs">Update typeDefs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-typedefs-headers">Get typeDefs headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-classificationdefs-by-guid">Get classificationDefs by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-classificationdefs-by-name">Get classificationDefs by name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-entitydefs-by-guid">Get entityDefs by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-entitydefs-by-name">Get entityDefs by name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-enumdefs-by-guid">Get enumDefs by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-enumdefs-by-name">Get enumDefs by name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-relationshipdefs-by-guid">Get relationshipDefs by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-relationshipdefs-by-name">Get relationshipDefs by name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-structdefs-by-guid">Get structDefs by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-structdefs-by-name">Get structDefs by name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-typedefs-by-guid">Get typeDefs by GUID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-typedefs-by-name">Get typeDefs by name</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Apache Atlas client in Python</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Usage</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/usage.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>To use atlasclient:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">atlasclient</span>
+</pre></div>
+</div>
+<p>This Python client is based on the <a class="reference external" href="https://atlas.apache.org/api/v2/index.html">Apache Atlas REST API v2</a>.</p>
+<p>The following groups of resources can be accessed:</p>
+<ul class="simple">
+<li>DiscoveryREST</li>
+<li>EntityREST</li>
+<li>LineageREST</li>
+<li>RelationshipREST</li>
+<li>TypesREST</li>
+</ul>
+<p>Below a few examples to access some of the resources.</p>
+<p>Make sure atlasclient is properly installed (see <a class="reference external" href="installation.html">here</a>).</p>
+<p>First you need to create a connection object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">atlasclient.client</span> <span class="kn">import</span> <span class="n">Atlas</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Atlas</span><span class="p">(</span><span class="n">your_atlas_host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">21000</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;admin&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Replace <cite>your_atlas_host</cite> by the actual host name of the Atlas server. Note that port 21000 might also be different in your case. Port 21000 is default port when using HTTP with Atlas, and 21443 for HTTPS.</p>
+<p>To access the list of entry points:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">atlasclient.client</span> <span class="kn">import</span> <span class="n">ENTRY_POINTS</span>
+<span class="n">ENTRY_POINTS</span>
+</pre></div>
+</div>
+<p>You&#8217;ll get a dictionary with (&#8216;key&#8217;: &#8216;value&#8217;) corresponding to (&#8216;client method&#8217;: &#8216;model class&#8217;): <cite>{&#8216;entity_guid&#8217;: &lt;class &#8216;atlasclient.models.EntityGuid&#8217;&gt;, ...}</cite>.
+For example, we can use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">entity_guid</span><span class="p">(</span><span class="n">GUID</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>&#8216;entity_guid&#8217; is used as a method of the &#8216;client&#8217; object.</p>
+<div class="section" id="discoveryrest">
+<h2>DiscoveryREST<a class="headerlink" href="#discoveryrest" title="Permalink to this headline">¶</a></h2>
+<p>This section explains how you can search for entities per attribute name, or search using a SQL-like query, and more ;).</p>
+<div class="section" id="search-by-attribute">
+<h3>Search by attribute<a class="headerlink" href="#search-by-attribute" title="Permalink to this headline">¶</a></h3>
+<p>To search for entities with a special attribute name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;attrName&#39;</span><span class="p">:</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;attrValue&#39;</span><span class="p">:</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="s1">&#39;10&#39;</span><span class="p">}</span>
+<span class="n">search_results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_attribute</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+<span class="c1">#  Info about all entities in one dict</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+<span class="c1">#  Getting name and guid of each entity</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">entities</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">guid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="search-with-basic-terms">
+<h3>Search with basic terms<a class="headerlink" href="#search-with-basic-terms" title="Permalink to this headline">¶</a></h3>
+<p>To retrieve data for the specified full text query:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>params = {&#39;attrName&#39;: &#39;name&#39;, &#39;attrValue&#39;: &#39;data&#39;, &#39;offset&#39;: &#39;1&#39;, &#39;limit&#39;: &#39;10&#39;}
+search_results = client.search_basic(**params)
+for s in search_results:
+    for e in s.entities
+        print(e.guid)
+</pre></div>
+</div>
+</div>
+<div class="section" id="search-by-dsl">
+<h3>Search by DSL<a class="headerlink" href="#search-by-dsl" title="Permalink to this headline">¶</a></h3>
+<p>To retrieve data for the specified DSL:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;typeName&#39;</span><span class="p">:</span> <span class="s1">&#39;hdfs_path&#39;</span><span class="p">,</span> <span class="s1">&#39;classification&#39;</span><span class="p">:</span> <span class="s1">&#39;Confidential&#39;</span><span class="p">}</span>
+<span class="n">search_results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_dsl</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">entities</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">classificationNames</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="entityrest">
+<h2>EntityREST<a class="headerlink" href="#entityrest" title="Permalink to this headline">¶</a></h2>
+<p>This section explains how to create entities, update or delete them.</p>
+<div class="section" id="create-entity">
+<h3>Create Entity<a class="headerlink" href="#create-entity" title="Permalink to this headline">¶</a></h3>
+<p>To create an entity, one needs to create a Python dictionary which will define the entity.
+This can be done from a json file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;my_entity_file.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+    <span class="n">entity_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>One can also just define the dictionary in Python. Note that if the user wants to pass a &#8216;null&#8217; value, he should assign a value None in Python dictionary. It will be automatically convert to &#8216;null&#8217; when requesting.</p>
+<p>Once the entity dictionary is created, the entity can actually be created on Atlas with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">entity_post</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">entity_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-entity-by-guid">
+<h3>Get entity by GUID<a class="headerlink" href="#get-entity-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>If you know the GUID of the entity you want to fetch, you can follow these steps to get all info about this entity:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entity_guid</span><span class="p">(</span><span class="n">GUID</span><span class="p">)</span>
+<span class="n">entity</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+<p>To access some specific attribute of that entity, say the description:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;attributes&#39;</span><span class="p">][</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>It shows up as a dictionary. So one can get the list of all attributes with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;attributes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-entity-by-guid">
+<h3>Update entity by GUID<a class="headerlink" href="#update-entity-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>Suppose you want to change the description of the entity here above and send it to Atlas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span><span class="o">.</span><span class="n">entity</span><span class="p">[</span><span class="s1">&#39;attributes&#39;</span><span class="p">][</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;my new description&#39;</span>
+<span class="n">entity</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">attribute</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="delete-entity-by-guid">
+<h3>Delete entity by GUID<a class="headerlink" href="#delete-entity-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To delete our entity:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-classifications-by-guid">
+<h3>Get classifications by GUID<a class="headerlink" href="#get-classifications-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To get all classification type names related to an entity GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entity</span><span class="p">(</span><span class="n">GUID</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">classification_info</span> <span class="ow">in</span> <span class="n">entity</span><span class="o">.</span><span class="n">classifications</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">classification_item</span> <span class="ow">in</span> <span class="n">classification_info</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">classification_item</span><span class="o">.</span><span class="n">typeName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-classifications-by-guid">
+<h3>Update classifications by GUID<a class="headerlink" href="#update-classifications-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To update classifications to an existing entity represented by a guid:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>entity = client.entity(GUID)
+for classification_info in entity.classifications:
+    for classification_item in classification_info.list:
+        if classification_item.typeName == &#39;Semi-Confidential&#39;
+            classification_item.typeName = &#39;Confidential&#39;
+entity.classifications.update()
+</pre></div>
+</div>
+<p>The entity will now be tagged as &#8216;Confidential&#8217; instead of &#8216;Semi-Confidential&#8217;.</p>
+</div>
+<div class="section" id="create-classifications-by-guid">
+<h3>Create classifications by GUID<a class="headerlink" href="#create-classifications-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To add classifications to an existing GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">new_classifications</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;typeName&quot;</span><span class="p">:</span> <span class="s2">&quot;Confidential&quot;</span><span class="p">},</span>
+                       <span class="p">{</span><span class="s2">&quot;typeName&quot;</span><span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">}</span>
+                      <span class="p">]</span>
+<span class="n">entity</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entity</span><span class="p">(</span><span class="n">GUID</span><span class="p">)</span>
+<span class="n">entity</span><span class="o">.</span><span class="n">classifications</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_classifications</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will create 2 new classifications for the entity.</p>
+</div>
+<div class="section" id="get-classification-info-by-guid-and-by-classification-type-name">
+<h3>Get classification info by GUID and by classification type name<a class="headerlink" href="#get-classification-info-by-guid-and-by-classification-type-name" title="Permalink to this headline">¶</a></h3>
+<p>To get info about some specific classification for some entity:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entity</span><span class="p">(</span><span class="n">GUID</span><span class="p">)</span>
+<span class="n">entity</span><span class="o">.</span><span class="n">classifications</span><span class="p">(</span><span class="s1">&#39;Confidential&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+<p>The refresh() method is used to load data from the Atlas server, which is then stored in the _data attribute.</p>
+<p>To get some specific info about the classification, say the &#8216;totalCount&#8217;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span><span class="o">.</span><span class="n">classifications</span><span class="p">(</span><span class="s1">&#39;Confidential&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">totalCount</span>
+</pre></div>
+</div>
+<p>In that case, no need to use the refresh method since the client will see that the attribute totalCount is not yet available and will therefore send a request to the Atlas server.</p>
+</div>
+<div class="section" id="delete-a-classification-by-guid">
+<h3>Delete a classification by GUID<a class="headerlink" href="#delete-a-classification-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To delete a given classification from an existing entity represented by a GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">entity_guid</span><span class="p">(</span><span class="n">GUID</span><span class="p">)</span><span class="o">.</span><span class="n">classications</span><span class="p">(</span><span class="s1">&#39;Confidential&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will delete the classification &#8216;Confidential&#8217; for that specific entity only.</p>
+</div>
+<div class="section" id="get-entities-by-bulk">
+<h3>Get entities by bulk<a class="headerlink" href="#get-entities-by-bulk" title="Permalink to this headline">¶</a></h3>
+<p>To retrieve list of entities identified by its GUIDs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">bulk_collection</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entity_bulk</span><span class="p">(</span><span class="n">guid</span><span class="o">=</span><span class="p">[</span><span class="n">GUID1</span><span class="p">,</span> <span class="n">GUID2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-entities-by-bulk">
+<h3>Create entities by bulk<a class="headerlink" href="#create-entities-by-bulk" title="Permalink to this headline">¶</a></h3>
+<p>To create entities:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">bulk</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;entities&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span>
+                <span class="s2">&quot;attributes&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qualifiedName&quot;</span><span class="p">:</span> <span class="s2">&quot;my_awesome_data&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;my_awesome_data_name&quot;</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/my-awesome-path&quot;</span><span class="p">},</span>
+                <span class="s2">&quot;status&quot;</span> <span class="p">:</span> <span class="s2">&quot;ACTIVE&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;version&quot;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s2">&quot;classifications&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span><span class="s2">&quot;typeName&quot;</span> <span class="p">:</span> <span class="s2">&quot;Customer&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;typeName&quot;</span> <span class="p">:</span> <span class="s2">&quot;Confidential&quot;</span><span class="p">}],</span>
+                <span class="s2">&quot;typeName&quot;</span> <span class="p">:</span> <span class="s2">&quot;hdfs_path&quot;</span><span class="p">}],</span>
+         <span class="s2">&quot;referredEntities&quot;</span><span class="p">:</span> <span class="p">{}</span>
+        <span class="p">}</span>
+<span class="n">client</span><span class="o">.</span><span class="n">entity_bulk</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">bulk</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will create an hdfs_path entity with 2 classifications.
+Note that you can pass a list of entities (not limited to 1).</p>
+</div>
+<div class="section" id="delete-multiple-entities">
+<h3>Delete multiple entities<a class="headerlink" href="#delete-multiple-entities" title="Permalink to this headline">¶</a></h3>
+<p>To delete a list of entities:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">entity_bulk</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">guid</span><span class="o">=</span><span class="p">[</span><span class="n">GUID1</span><span class="p">,</span> <span class="n">GUID2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="associate-a-tag-to-multiple-entities">
+<h3>Associate a tag to multiple entities<a class="headerlink" href="#associate-a-tag-to-multiple-entities" title="Permalink to this headline">¶</a></h3>
+<p>To associate a tag to multiple entities:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity_bulk_tag</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;classification&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;typeName&quot;</span><span class="p">:</span> <span class="s2">&quot;Confidential&quot;</span><span class="p">},</span>
+                   <span class="s2">&quot;entityGuids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">GUID1</span><span class="p">,</span> <span class="n">GUID2</span><span class="p">]}</span>
+<span class="n">client</span><span class="o">.</span><span class="n">entity_bulk_classification</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">entity_bulk_tag</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will create the tag &#8216;Confidential&#8217; both GUIDs.</p>
+</div>
+<div class="section" id="get-entity-by-unique-attribute">
+<h3>Get entity by unique attribute<a class="headerlink" href="#get-entity-by-unique-attribute" title="Permalink to this headline">¶</a></h3>
+<p>To fetch an entity given its type and unique attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entity_unique_attribute</span><span class="p">(</span><span class="s1">&#39;hdfs_path&#39;</span><span class="p">,</span> <span class="n">qualifiedName</span><span class="o">=</span><span class="s1">&#39;/my/awesome/path&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-entity-for-subset-of-attributes">
+<h3>Update entity for subset of attributes<a class="headerlink" href="#update-entity-for-subset-of-attributes" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>To update a subset of attributes on an entity which is identified by its type and unique attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">####  TO BE IMPLEMENTED ####</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="to-delete-an-entity-by-unique-attribute">
+<h3>To delete an entity by unique attribute<a class="headerlink" href="#to-delete-an-entity-by-unique-attribute" title="Permalink to this headline">¶</a></h3>
+<p>To delete an entity identified by its type and unique attributes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entity_unique_attribute</span><span class="p">(</span><span class="s1">&#39;hdfs_path&#39;</span><span class="p">,</span> <span class="n">qualifiedName</span><span class="o">=</span><span class="s1">&#39;/my/awesome/path&#39;</span><span class="p">)</span>
+<span class="n">entity</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="lineagerest">
+<h2>LineageREST<a class="headerlink" href="#lineagerest" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="get-lineage-by-guid">
+<h3>Get lineage by GUID<a class="headerlink" href="#get-lineage-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To get lineage info about entity identified by GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lineage</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">lineage_guid</span><span class="p">(</span><span class="n">GUID</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lineage</span><span class="o">.</span><span class="n">relations</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lineage</span><span class="o">.</span><span class="n">lineageDirection</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="relationshiprest">
+<h2>RelationshipREST<a class="headerlink" href="#relationshiprest" title="Permalink to this headline">¶</a></h2>
+<p>TO BE DONE...</p>
+</div>
+<div class="section" id="typesrest">
+<h2>TypesREST<a class="headerlink" href="#typesrest" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="get-typedefs">
+<h3>Get typeDefs<a class="headerlink" href="#get-typedefs" title="Permalink to this headline">¶</a></h3>
+<p>Typedefs can be seen as a collection of type definitions in Atlas and can accessed with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">typeDefs</span>
+</pre></div>
+</div>
+<p>This only creates an object is not actually requesting the Atlas server.
+Suppose we want to access all elements of type &#8216;enumDefs&#8217;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">typeDefs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">enumDefs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">elementDefs</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can access the classification types in a similar way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">typeDefs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">classification_type</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">classificationDefs</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">classification_type</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Idem for entityDefs and structDefs.</p>
+</div>
+<div class="section" id="delete-typedefs">
+<h3>Delete typeDefs<a class="headerlink" href="#delete-typedefs" title="Permalink to this headline">¶</a></h3>
+<p>To delete typedefs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">typedefs</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">typedef_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where <cite>typedef_dict</cite> is the body to pass.
+Here is an example as illustration:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">typedef_dict</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s2">&quot;enumDefs&quot;</span><span class="p">:[],</span>
+<span class="s2">&quot;structDefs&quot;</span><span class="p">:[],</span>
+<span class="s2">&quot;classificationDefs&quot;</span><span class="p">:[],</span>
+<span class="s2">&quot;entityDefs&quot;</span><span class="p">:[</span>
+   <span class="p">{</span>
+      <span class="s2">&quot;superTypes&quot;</span><span class="p">:[</span>
+        <span class="s2">&quot;DataSet&quot;</span>
+      <span class="p">],</span>
+      <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;test_entity_7&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;test_entity_7&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;createdBy&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;updatedBy&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;attributeDefs&quot;</span><span class="p">:[</span>
+         <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;test_7_1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;isOptional&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s2">&quot;isUnique&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s2">&quot;isIndexable&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s2">&quot;typeName&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;valuesMaxCount&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;cardinality&quot;</span><span class="p">:</span><span class="s2">&quot;SINGLE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;valuesMinCount&quot;</span><span class="p">:</span><span class="mi">0</span>
+         <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;test_7_2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;isOptional&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s2">&quot;isUnique&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s2">&quot;isIndexable&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s2">&quot;typeName&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;valuesMaxCount&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;cardinality&quot;</span><span class="p">:</span><span class="s2">&quot;SINGLE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;valuesMinCount&quot;</span><span class="p">:</span><span class="mi">0</span>
+         <span class="p">}</span>
+      <span class="p">]</span>
+
+   <span class="p">}</span>
+<span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-typedefs">
+<h3>Create typeDefs<a class="headerlink" href="#create-typedefs" title="Permalink to this headline">¶</a></h3>
+<p>To create typedefs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">typedefs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">typedef_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An example for <cite>typedef_dict</cite> is given at the subsection above.</p>
+</div>
+<div class="section" id="update-typedefs">
+<h3>Update typeDefs<a class="headerlink" href="#update-typedefs" title="Permalink to this headline">¶</a></h3>
+<p>To update typedefs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">typedefs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">typedef_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An example for <cite>typedef_dict</cite> is given at the subsection above.</p>
+</div>
+<div class="section" id="get-typedefs-headers">
+<h3>Get typeDefs headers<a class="headerlink" href="#get-typedefs-headers" title="Permalink to this headline">¶</a></h3>
+<p>To get typedefs headers:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">typedefs_headers</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">category</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-classificationdefs-by-guid">
+<h3>Get classificationDefs by GUID<a class="headerlink" href="#get-classificationdefs-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To get classificationdefs by GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">class_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">classificationdef_guid</span><span class="p">(</span><span class="n">CLASSIFICATION_GUID</span><span class="p">)</span>
+<span class="n">class_defs</span><span class="o">.</span><span class="n">name</span>
+<span class="n">class_defs</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-classificationdefs-by-name">
+<h3>Get classificationDefs by name<a class="headerlink" href="#get-classificationdefs-by-name" title="Permalink to this headline">¶</a></h3>
+<p>To get classificationdefs by name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">CLASSIFICATION_NAME</span> <span class="o">=</span> <span class="s1">&#39;Confidential&#39;</span>
+<span class="n">class_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">classificationdef_name</span><span class="p">(</span><span class="n">CLASSIFICATION_NAME</span><span class="p">)</span>
+<span class="n">class_defs</span><span class="o">.</span><span class="n">description</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-entitydefs-by-guid">
+<h3>Get entityDefs by GUID<a class="headerlink" href="#get-entitydefs-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To get entitydefs by GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">entity_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entitydef_guid</span><span class="p">(</span><span class="n">ENTITY_GUID</span><span class="p">)</span>
+<span class="n">entity_defs</span><span class="o">.</span><span class="n">description</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-entitydefs-by-name">
+<h3>Get entityDefs by name<a class="headerlink" href="#get-entitydefs-by-name" title="Permalink to this headline">¶</a></h3>
+<p>To get entitydefs by name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ENTITY_NAME</span> <span class="o">=</span> <span class="s1">&#39;hdfs_path&#39;</span>
+<span class="n">entity_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">entitydef_name</span><span class="p">(</span><span class="n">ENTITY_NAME</span><span class="p">)</span>
+<span class="n">entity_defs</span><span class="o">.</span><span class="n">description</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-enumdefs-by-guid">
+<h3>Get enumDefs by GUID<a class="headerlink" href="#get-enumdefs-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To get enumdefs by GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">enum_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">enumdef_guid</span><span class="p">(</span><span class="n">ENUM_GUID</span><span class="p">)</span>
+<span class="n">enum_defs</span><span class="o">.</span><span class="n">elementDefs</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-enumdefs-by-name">
+<h3>Get enumDefs by name<a class="headerlink" href="#get-enumdefs-by-name" title="Permalink to this headline">¶</a></h3>
+<p>To get enumdefs by name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">ENUM_NAME</span> <span class="o">=</span> <span class="s1">&#39;file_action&#39;</span>
+<span class="n">enum_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">enumdef_name</span><span class="p">(</span><span class="n">ENUM_NAME</span><span class="p">)</span>
+<span class="n">enum_defs</span><span class="o">.</span><span class="n">elementDefs</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-relationshipdefs-by-guid">
+<h3>Get relationshipDefs by GUID<a class="headerlink" href="#get-relationshipdefs-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To get relationshipdefs by GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">relationship_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">relationshipdef_guid</span><span class="p">(</span><span class="n">RELATIONSHIP_GUID</span><span class="p">)</span>
+<span class="n">relationship_defs</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-relationshipdefs-by-name">
+<h3>Get relationshipDefs by name<a class="headerlink" href="#get-relationshipdefs-by-name" title="Permalink to this headline">¶</a></h3>
+<p>To get relationshipdefs by name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">relationship_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">relationshipdef_guid</span><span class="p">(</span><span class="n">RELATIONSHIP_NAME</span><span class="p">)</span>
+<span class="n">relationship_defs</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-structdefs-by-guid">
+<h3>Get structDefs by GUID<a class="headerlink" href="#get-structdefs-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To get structdefs by GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">struct_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">structdef_guid</span><span class="p">(</span><span class="n">STRUCT_GUID</span><span class="p">)</span>
+<span class="n">struct_defs</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-structdefs-by-name">
+<h3>Get structDefs by name<a class="headerlink" href="#get-structdefs-by-name" title="Permalink to this headline">¶</a></h3>
+<p>To get structdefs by name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">struct_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">structdef_guid</span><span class="p">(</span><span class="n">STRUCT_NAME</span><span class="p">)</span>
+<span class="n">struct_defs</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-typedefs-by-guid">
+<h3>Get typeDefs by GUID<a class="headerlink" href="#get-typedefs-by-guid" title="Permalink to this headline">¶</a></h3>
+<p>To get typedefs by GUID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">type_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">typedef_guid</span><span class="p">(</span><span class="n">TYPE_GUID</span><span class="p">)</span>
+<span class="n">type_defs</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-typedefs-by-name">
+<h3>Get typeDefs by name<a class="headerlink" href="#get-typedefs-by-name" title="Permalink to this headline">¶</a></h3>
+<p>To get typedefs by name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">type_defs</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">typedef_guid</span><span class="p">(</span><span class="n">TYPE_NAME</span><span class="p">)</span>
+<span class="n">type_defs</span><span class="o">.</span><span class="n">_data</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="readme.html" class="btn btn-neutral" title="Apache Atlas Client in Python" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, JB Poullet.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
